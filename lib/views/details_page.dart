@@ -20,7 +20,49 @@ class DetailsPage extends StatelessWidget {
       onSelected: (b) {},)).toList();
   }
 
+  getTypes() {
+    if (this.pokemon.type.length == 0) return [];
+    return [
+      Text('Types', style: TextStyle(fontWeight: FontWeight.bold)),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: this.getChildrens(
+            list: this.pokemon.type,
+            backgroundColor: Colors.amber
+        ),
+      ),
+    ];
+  }
 
+  getWeakness() {
+    if (this.pokemon.weaknesses.length == 0) return [];
+    return [
+      Text('Weakness', style: TextStyle(fontWeight: FontWeight.bold)),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: this.getChildrens(
+            list: this.pokemon.weaknesses,
+            backgroundColor: Colors.red,
+            textStyleColor: Colors.white
+        ),
+      ),
+    ];
+  }
+
+  getNextEvolutions() {
+    if (this.pokemon.nextEvolution.length == 0) return [];
+    return [
+      Text('Next Evolution', style: TextStyle(fontWeight: FontWeight.bold)),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: this.getChildrens(
+            list: this.pokemon.nextEvolution.map((e) => e.name).toList(),
+            backgroundColor: Colors.green,
+            textStyleColor: Colors.white
+        ),
+      )
+    ];
+  }
 
   bodyWidget(BuildContext context) => Stack(
     children: <Widget>[
@@ -45,32 +87,9 @@ class DetailsPage extends StatelessWidget {
               ),
               Text('Height: ${this.pokemon.height}'),
               Text('Weight: ${this.pokemon.weight}'),
-              Text('Types', style: TextStyle(fontWeight: FontWeight.bold)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: this.getChildrens(
-                  list: this.pokemon.type,
-                  backgroundColor: Colors.amber
-                ),
-              ),
-              Text('Weakness', style: TextStyle(fontWeight: FontWeight.bold)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: this.getChildrens(
-                  list: this.pokemon.weaknesses,
-                  backgroundColor: Colors.red,
-                  textStyleColor: Colors.white
-                ),
-              ),
-              Text('Next Evolution', style: TextStyle(fontWeight: FontWeight.bold)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: this.getChildrens(
-                  list: this.pokemon.nextEvolution.map((e) => e.name).toList(),
-                  backgroundColor: Colors.green,
-                  textStyleColor: Colors.white
-                ),
-              )
+              ...this.getTypes(),
+              ...this.getWeakness(),
+              ...this.getNextEvolutions()
             ],
           ),
         ),
