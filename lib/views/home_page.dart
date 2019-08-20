@@ -92,7 +92,43 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: this.bodyWidget(),
-      drawer: Drawer(),
+      drawer: Drawer(
+
+        child: ListView(
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+                accountName: Text("Darío Dessaunet"),
+                accountEmail: Text("dario.dessaunet@globant.com"),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor:
+                  Theme.of(context).platform == TargetPlatform.iOS
+                      ? Colors.blue
+                      : Colors.white,
+                  child: Text(
+                    "D",
+                    style: TextStyle(fontSize: 40.0),
+                  ),
+                )
+            ),
+            Center(
+              widthFactor: 1,
+              child: Container(
+                height: 60.0,
+                alignment: Alignment(0, 0),
+                child: DrawerHeader(
+                  child: Text(
+                      'About',
+                      style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold
+                      )
+                  )
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => this.refresh(),
         tooltip: 'Refresh',
