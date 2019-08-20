@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:pokedex_flutter/core/model/poke_hub.dart';
+import 'package:pokedex_flutter/core/resources/pokemon_service.dart';
 import 'package:pokedex_flutter/views/details_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,8 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var url = 'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json';
   PokeHub pokeHub = new PokeHub(pokemon: []);
+  PokemonService pokemonService = new PokemonService();
 
   @override
   void initState() {
@@ -26,50 +24,49 @@ class _HomePageState extends State<HomePage> {
   }
 
   fetchData() async {
-    var result = await http.get(url);
-    var decodedJson = jsonDecode(result.body);
-    setState(() => this.pokeHub = PokeHub.fromJson(decodedJson));
+    var pokemons = await pokemonService.getPokemons();
+    setState(() => this.pokeHub = PokeHub.fromJson(pokemons));
   }
 
   gridWidget() {
     return GridView.count(
       crossAxisCount: 2,
-        children: pokeHub.pokemon.map((poke) => Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailsPage(pokemon: poke)
-                )
-              );
-            },
-            child: Card(
-              elevation: 3.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    height: 100.0,
-                    width: 100.0,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(poke.img)
-                        )
-                    ),
+      children: pokeHub.pokemon.map((poke) => Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailsPage(pokemon: poke)
+              )
+            );
+          },
+          child: Card(
+            elevation: 3.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  height: 100.0,
+                  width: 100.0,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(poke.img)
+                      )
                   ),
-                  Text(
-                    poke.name,
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold
-                    ),
-                  )
-                ],
-              ),
+                ),
+                Text(
+                  poke.name,
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold
+                  ),
+                )
+              ],
             ),
           ),
+        ),
       )).toList()
     );
   }
@@ -78,6 +75,11 @@ class _HomePageState extends State<HomePage> {
     return pokeHub.pokemon.length == 0 ?
       Center(child: CircularProgressIndicator()) :
       this.gridWidget();
+  }
+
+  refresh() {
+    setState(() { pokeHub.pokemon.clear(); });
+    setState(() { this.fetchData(); });
   }
 
   @override
@@ -89,10 +91,10 @@ class _HomePageState extends State<HomePage> {
       body: this.bodyWidget(),
       drawer: Drawer(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => print('Refresh'),
+        onPressed: () => this.refresh(),
         tooltip: 'Refresh',
         child: Icon(Icons.refresh),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

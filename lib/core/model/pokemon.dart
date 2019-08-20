@@ -52,8 +52,8 @@ class Pokemon {
     spawnTime = json['spawn_time'];
     multipliers = json['multipliers']?.cast<double>();
     weaknesses = json['weaknesses'].cast<String>();
+    nextEvolution = new List<NextEvolution>();
     if (json['next_evolution'] != null) {
-      nextEvolution = new List<NextEvolution>();
       json['next_evolution'].forEach((v) {
         nextEvolution.add(new NextEvolution.fromJson(v));
       });

@@ -6,10 +6,21 @@ class DetailsPage extends StatelessWidget {
 
   DetailsPage({this.pokemon});
 
-  getProps() {
-    return
-
+  getChildrens({
+    List<String> list,
+    Color backgroundColor,
+    Color textStyleColor = Colors.black
+  }) {
+    if (list.length == 0) {
+      return <Widget>[].toList();
+    }
+    return list.map((t) => FilterChip(
+      backgroundColor: backgroundColor,
+      label: Text(t, style: TextStyle(color: textStyleColor)),
+      onSelected: (b) {},)).toList();
   }
+
+
 
   bodyWidget(BuildContext context) => Stack(
     children: <Widget>[
@@ -37,26 +48,28 @@ class DetailsPage extends StatelessWidget {
               Text('Types', style: TextStyle(fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: this.pokemon.type.map((t) => FilterChip(
-                  backgroundColor: Colors.amber,
-                  label: Text(t),
-                  onSelected: (b) {},)).toList(),
+                children: this.getChildrens(
+                  list: this.pokemon.type,
+                  backgroundColor: Colors.amber
+                ),
               ),
               Text('Weakness', style: TextStyle(fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: this.pokemon.weaknesses.map((w) => FilterChip(
+                children: this.getChildrens(
+                  list: this.pokemon.weaknesses,
                   backgroundColor: Colors.red,
-                  label: Text(w, style: TextStyle(color: Colors.white)),
-                  onSelected: (b) {},)).toList(),
+                  textStyleColor: Colors.white
+                ),
               ),
               Text('Next Evolution', style: TextStyle(fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: this.pokemon.nextEvolution.map((e) => FilterChip(
+                children: this.getChildrens(
+                  list: this.pokemon.nextEvolution.map((e) => e.name).toList(),
                   backgroundColor: Colors.green,
-                  label: Text(e.name, style: TextStyle(color: Colors.white)),
-                  onSelected: (b) {},)).toList(),
+                  textStyleColor: Colors.white
+                ),
               )
             ],
           ),
