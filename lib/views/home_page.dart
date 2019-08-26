@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 
 import 'package:pokedex_flutter/core/model/poke_hub.dart';
 import 'package:pokedex_flutter/core/resources/pokemon_service.dart';
@@ -50,10 +50,11 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
-                    height: 100.0,
-                    width: 100.0,
+                    height: 300.0,
+                    width: 300.0,
                     decoration: BoxDecoration(
                         image: DecorationImage(
+                            fit: BoxFit.cover,
                             image: NetworkImage(poke.img)
                         )
                     ),
