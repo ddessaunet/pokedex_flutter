@@ -110,22 +110,6 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(fontSize: 40.0),
                   ),
                 )
-            ),
-            Center(
-              widthFactor: 1,
-              child: Container(
-                height: 60.0,
-                alignment: Alignment(0, 0),
-                child: DrawerHeader(
-                  child: Text(
-                      'About',
-                      style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.bold
-                      )
-                  )
-                ),
-              ),
             )
           ],
         ),
