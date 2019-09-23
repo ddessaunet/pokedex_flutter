@@ -1,4 +1,4 @@
-import 'package:flutter_web/material.dart';
+import 'package:flutter/material.dart';
 
 import 'package:pokedex_flutter/core/model/poke_hub.dart';
 import 'package:pokedex_flutter/core/resources/pokemon_service.dart';
