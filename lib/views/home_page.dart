@@ -50,11 +50,10 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
-                    height: 300.0,
-                    width: 300.0,
+                    height: 100.0,
+                    width: 100.0,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            fit: BoxFit.cover,
                             image: NetworkImage(poke.img)
                         )
                     ),
